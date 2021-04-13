@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useReducer } from 'react';
+import React, { useReducer, useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 const initialState = {
@@ -24,8 +24,20 @@ const reducer = (state, action) => {
   }
 }
 
+const users = [{ name: 'el', age: 2 },{ name: 'ella', age: 3 }]
+
 export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  const totalAge = useMemo(() => {
+    let age = 0;
+    console.log('calculando..');
+    users.forEach(x => {
+      age= age + x.age
+    });
+    return age;
+  }, [users])
+  console.log('edad total', totalAge);
   return (
     <View style={styles.container}>
       <Text onPress={() => dispatch({type: 'incrementar'})} style={styles.text}>
